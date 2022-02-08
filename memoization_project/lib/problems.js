@@ -16,7 +16,12 @@
 // lucasNumberMemo(41)  // => 370248451
 // lucasNumberMemo(42)  // => 599074578
 function lucasNumberMemo(n, memo = {}) {
+    if (n === 0) return 2;
+    if (n === 1) return 1;
+    if (n in memo) return memo[n]
 
+    memo[n] = lucasNumberMemo(n-2) + lucasNumberMemo(n-1);
+    return memo[n]
 }
 
 
@@ -29,12 +34,27 @@ function lucasNumberMemo(n, memo = {}) {
 //
 // Examples:
 //  
-// minChange([1, 2, 5], 11)         // => 3, because 5 + 5 + 1 = 11
-// minChange([1, 4, 5], 8))         // => 2, because 4 + 4 = 8
-// minChange([1, 5, 10, 25], 15)    // => 2, because 10 + 5 = 15
-// minChange([1, 5, 10, 25], 100)   // => 4, because 25 + 25 + 25 + 25 = 100
-function minChange(coins, amount, memo = {}) {
+console.log(minChange([1, 2, 5], 11))         // => 3, because 5 + 5 + 1 = 11
+console.log(minChange([1, 4, 5], 8))         // => 2, because 4 + 4 = 8
+console.log(minChange([1, 5, 10, 25], 15))    // => 2, because 10 + 5 = 15
+console.log(minChange([1, 5, 10, 25], 100))   // => 4, because 25 + 25 + 25 + 25 = 100
 
+function minChange(coins, amount, memo = {}) {
+    let wallet = [...coins];
+    let selectCoin = wallet[wallet.length - 1]
+    
+    if (coins.length === 0) return {remainder: amount}
+    if (selectCoin === amount) return selectCoin
+
+    let remaining = amount
+    
+    if (amount < selectCoin) {
+        wallet.pop()
+        return minChange(wallet,remaining)
+    } else {
+        remaining = amount - selectCoin
+        return [selectCoin].concat(minChange(wallet,remaining))
+    }    
 }
 
 
