@@ -20,7 +20,7 @@ function lucasNumberMemo(n, memo = {}) {
     if (n === 1) return 1;
     if (n in memo) return memo[n]
 
-    memo[n] = lucasNumberMemo(n-2) + lucasNumberMemo(n-1);
+    memo[n] = lucasNumberMemo(n-2, memo) + lucasNumberMemo(n-1, memo);
     return memo[n]
 }
 
@@ -34,29 +34,55 @@ function lucasNumberMemo(n, memo = {}) {
 //
 // Examples:
 //  
-console.log(minChange([1, 2, 5], 11))         // => 3, because 5 + 5 + 1 = 11
-console.log(minChange([1, 4, 5], 8))         // => 2, because 4 + 4 = 8
-console.log(minChange([1, 5, 10, 25], 15))    // => 2, because 10 + 5 = 15
-console.log(minChange([1, 5, 10, 25], 100))   // => 4, because 25 + 25 + 25 + 25 = 100
+// console.log(minChange([1, 2, 5], 11))         // => 3, because 5 + 5 + 1 = 11
+// console.log(minChange([1, 4, 5], 8))         // => 2, because 4 + 4 = 8
+// console.log(minChange([1, 5, 10, 25], 15))    // => 2, because 10 + 5 = 15
+// console.log(minChange([1, 5, 10, 25], 100))   // => 4, because 25 + 25 + 25 + 25 = 100
 
-function minChange(coins, amount, memo = {}) {
+function minChangeAttempt1(coins, amount, memo = {}) {
+    //Want to duplicate the coin array so we are not directly manipulating the argument
     let wallet = [...coins];
+    // The select coin will always be the largest available coin.
+    // This will limit the number of coins to the minimum amount necessary
     let selectCoin = wallet[wallet.length - 1]
     
+    // A base case will be when the list of available coins are zero
+    // Next base case will be once the amount is equal to the selectCoin meaning we've reached the proper amount of change
     if (coins.length === 0) return {remainder: amount}
     if (selectCoin === amount) return selectCoin
 
+    // Remaining will be the remainder once each selectCoin is subtracted from the amount
     let remaining = amount
     
+    //if amount is less than the selectCoin (Largest available coin), we remove the selectCoin from the array since it is invalid for use then run the function again recursively
     if (amount < selectCoin) {
         wallet.pop()
         return minChange(wallet,remaining)
     } else {
+        // If amount exceeds selectCoin, subtract selectCoin from amount then concatenate the successful coin choices 
         remaining = amount - selectCoin
-        return [selectCoin].concat(minChange(wallet,remaining))
+        return [selectCoin].concat(minChangeAttempt1(wallet,remaining))
     }    
 }
 
+// This previous solution works if appropriate demoninations are available. However, if not, if may not be able to solve the problem
+// This next solution exhausts all combinations of coins and find the correct combo of coins that successfully gives change
+
+function minChange(coins, amount, memo = {}) {
+    if (amount === 0) return 0;
+    
+    if (amount in memo) return memo[amount];
+
+    let num_coins = []
+    coins.forEach(coin => {
+        if (coin <= amount) {
+            num_coins.push(minChange(coins, amount - coin, memo) + 1);
+        }
+    });
+
+    memo[amount] = Math.min(...num_coins);
+    return memo[amount];
+}
 
 module.exports = {
     lucasNumberMemo,
