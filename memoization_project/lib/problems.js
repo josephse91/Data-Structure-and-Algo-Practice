@@ -69,11 +69,17 @@ function minChangeAttempt1(coins, amount, memo = {}) {
 // This next solution exhausts all combinations of coins and find the correct combo of coins that successfully gives change
 
 function minChange(coins, amount, memo = {}) {
+    // Once the total amount of change has been given, we will return zero coins back
     if (amount === 0) return 0;
     
+    // Because there are redundencies in parts of the tree of options, if the function already has been calculated, it will recall the value from this value bank (memo)
     if (amount in memo) return memo[amount];
 
+    // This will hold the number of coins that are used in each branch of the tree
     let num_coins = []
+
+    // Each coin we will iterate through each coin and subtract from the amount.
+    // We will add 1 whenever a coin has been successfully subtracted from the amount.
     coins.forEach(coin => {
         if (coin <= amount) {
             num_coins.push(minChange(coins, amount - coin, memo) + 1);
