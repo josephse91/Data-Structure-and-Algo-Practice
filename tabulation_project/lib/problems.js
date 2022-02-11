@@ -87,8 +87,32 @@ console.log(steppermemo([2, 3, 1, 1, 0, 4, 7, 8]))    // => false, there is no w
 //
 // maxNonAdjacentSum([2, 7, 9, 3, 4])   // => 15, because 2 + 9 + 4
 // maxNonAdjacentSum([4,2,1,6])         // => 10, because 4 + 6 
-function maxNonAdjacentSum(nums) {
+// memoized
+function maxNonAdjacentSum(nums, start = 0, end = nums.length - 1, memo = {}) {
+    let key = start + ',' + end;
+    if (key in memo) return memo[key];
+    if (start > end) return 0;
 
+    let ways = [];
+    for (let i = start; i <= end; i++) {
+        let amt = nums[i];
+        ways.push(amt + maxNonAdjacentSum(nums, start, i - 2, memo) + maxNonAdjacentSum(nums, i + 2, end, memo));
+    }
+
+    memo[key] = Math.max(...ways);
+    return memo[key];
+}
+
+function maxNonAdjacentSum(nums, memo = {}) {
+    if (nums.length in memo) return memo[nums.length];
+    if (nums.length === 0) return 0;
+
+    memo[nums.length] = Math.max(
+        maxNonAdjacentSum(nums.slice(1), memo),
+        nums[0] + maxNonAdjacentSum(nums.slice(2), memo)
+    );
+
+    return memo[nums.length];
 }
 
 
@@ -105,7 +129,20 @@ function maxNonAdjacentSum(nums) {
 // minChange([1, 5, 10, 25], 15)    // => 2, because 10 + 5 = 15
 // minChange([1, 5, 10, 25], 100)   // => 4, because 25 + 25 + 25 + 25 = 100
 function minChange(coins, amount) {
+    let table = new Array(amount + 1).fill(Infinity);
+    table[0] = 0;
 
+    coins.forEach((val) => {
+        for (let amt = 0; amt < table.length; amt++) {
+            for (let qty = 0; qty * val <= amt; qty++) {
+                remainder = amt - qty * val;
+                attempt = table[remainder] + qty;
+                if (attempt < table[amt]) table[amt] = attempt;
+            }
+        }
+    });
+
+    return table[amount];
 }
 
 
