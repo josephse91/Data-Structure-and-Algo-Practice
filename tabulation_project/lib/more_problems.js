@@ -7,15 +7,15 @@
 // If n is divisible by 3, then divide n by 3
 
 function minimizeStep(n) {
-    if (n === 1) return 1
+    if (n === 1) return 0
 
     let count = 0
     if (n % 3) {
-        let divideThree = minimizeStep(n/3);
+        minimizeStep(n/3);
     }
     
     if (n % 2) {
-        let divideTwo = minimizeStep(n/2);
+        minimizeStep(n/2);
     }
     
     count += Math.min(divideThree(),divideTwo(), minimizeStep(n-1))
