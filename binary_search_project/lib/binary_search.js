@@ -14,7 +14,7 @@ function binarySearch(array, target) {
     }          
 }
 
-function binarySearchIndex(array, target) {
+function bSearchIndex(array, target) {
     if (!binarySearch(array)) return -1;
 
     // There is a way to capture the index within the binary search
@@ -23,6 +23,22 @@ function binarySearchIndex(array, target) {
     // I will keep it simple and do this linearly
 
     return array.findIndex((el) => el === target);
+}
+
+function binarySearchIndex(array,target, lo = 0, high = array.length - 1) {
+    if (lo === high) return -1;
+
+    midIdx = Math.floor((lo + high) / 2);
+    // leftArray = array.slice(0,midIdx);
+    // rightArray = array.slice(midIdx +1);
+
+    if (target < array[midIdx]) {
+        return binarySearchIndex(array,target,lo,midIdx);
+    } else if (target > array[midIdx]) {
+        return binarySearchIndex(array,target,midIdx + 1,high);
+    } else {
+        return midIdx;
+    }
 }
 
 
