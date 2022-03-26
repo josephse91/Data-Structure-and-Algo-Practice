@@ -156,17 +156,12 @@ var findLeaves = function(root) {
 
     [output,visited] = dfs(root,output,visited);
     output = [output]
-    // console.log(output)
-// /*
-    while (!(root.val in visited)) {
-        // output = [...output,...newOutput]
 
+    while (!(root.val in visited)) {
         [newOutput,visited] = dfs(root,[],visited);
-        // output = [newOutput]
         output.push(newOutput);
-        // console.log(newOutput);
     }
-//  */
+
     return output;
 }
 

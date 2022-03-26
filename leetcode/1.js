@@ -2,16 +2,7 @@
 
 let twoSum = function(nums, target) {
     let pairs = {};
-    // /*
-    nums.forEach(function(el) { 
-        if (pairs[target - el]) {
-            return [nums.indexOf(el), nums.indexOf(target-el)];
-        } else {
-            pairs[el] = true;
-        }
-    })
-// */
-/*
+
     for (let i = 0; i < nums.length; i++) {
         if (pairs[target - nums[i]]) {
             return [i, nums.indexOf(target-nums[i])]
@@ -19,7 +10,6 @@ let twoSum = function(nums, target) {
             pairs[nums[i]] = true;
         }
     }
-    */
     return null;
 };
 
