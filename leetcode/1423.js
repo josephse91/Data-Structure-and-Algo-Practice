@@ -18,8 +18,7 @@ function maxScore (cardPoints,k) {
         frontSum -= cardPoints[k-1-i]
         backSum += cardPoints[deckLength - i]
         currentSum = frontSum + backSum;
-        // console.log(currentSum,frontSum,backSum)
-        // console.log(totalSum)
+
         totalSum = Math.max(currentSum,totalSum)
         
         i++
