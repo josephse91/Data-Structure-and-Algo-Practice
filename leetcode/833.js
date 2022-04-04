@@ -2,6 +2,8 @@
 
 /* There is nothing that says that the indices array will be sorted so I am going to sort the indice, sources and target arrays using bubble sort
 Replacing the characters will be done in reverse order to the indexes remain intact
+
+This method will have a time complexity of O(n^2) where n is the number of elements in the indices array
 */
 
 var findReplaceString = function(s, indices, sources, targets) {
@@ -12,8 +14,7 @@ var findReplaceString = function(s, indices, sources, targets) {
         let idx = newIndices[i]
         let sourceLength = newSources[i].length
         let subString = s.slice(idx,idx + sourceLength)
-        
-        console.log(idx,sourceLength,subString,newTargets[i],newStr)
+    
         if (subString === newSources[i]) {
             newStr = s.slice(0,idx) + newTargets[i] + newStr.slice(idx + sourceLength)
         }
@@ -61,5 +62,38 @@ function swap(array,i,j) {
 // console.log(findReplaceString("abcd", [0,2], ["ab","ec"],["eee","ffff"]))
 console.log(findReplaceString("vmokgggqzp",[3,5,1],["kg","ggq","mo"],["s","so","bfr"])) // Output: "vbfrssozp"
 
+/* Solution: There is a better way to do this. We could linearly just navigate through each character in the s argument. If that char starts with the substring, 
+then replace the substring with the new target substring
+*/
 
+var findReplaceStringSolution = function(S, indexes, sources, targets) {
+    const n = indexes.length;
+    const chars = S.split("");
+   
+    for (let i = 0; i < n; i++) {
+        const [index, source, target] = [indexes[i], sources[i], targets[i]];
+        
+        // starts with is a boolean that evaluates if the string at a certain index starts with the source
+        if (S.substring(index).startsWith(source)) {
+            // if this returns true then 
+            replaceChars(chars, index, source, target);
+        }
+    }
+    
+    return chars.join("");
+    
+    
+    function replaceChars(chars, start, source, target) {
+        // takes the first character of the source array and replaces that with the target
+        chars[start] = target;
+        
+        // replaces the remaining ORIGINAL source string with empty string. NOTE, this person split the string into array elements before hand.
+        //They join the elements into a string later. The original strings of the source will be:
+        // [replaced] + [""] + [""] ...
+        for (let i = 1; i < source.length; i++) {
+            chars[start + i] = "";
+        }
+    }
+};
 
+console.log(findReplaceStringSolution("vmokgggqzp",[3,5,1],["kg","ggq","mo"],["s","so","bfr"])) // Output: "vbfrssozp"

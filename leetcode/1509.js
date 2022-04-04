@@ -18,6 +18,8 @@ var minDifference = function(nums) {
         ranges = difference.map(el => el[0])
         sortedRanges = quickSort(ranges)
 
+        sortedDiff = sortedRanges.map(el => el)
+
         console.log(difference)
         console.log(sortedRanges)
 
