@@ -27,6 +27,10 @@ end
 #     return company[id].importance + sum_importance
 # end
 
+rescue => exception
+    
+end
+
 def build_tree(employees)
     company = {}
     new_subs = []

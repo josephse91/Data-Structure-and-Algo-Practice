@@ -1,46 +1,76 @@
-// You are given the heads of two sorted linked lists list1 and list2.
-// Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
-// Return the head of the merged linked list.
+/* ATTEMPT 1 
+    Use the helper function to find the last link in a linked list. I initiated an empty linked list and added the lesser of the initial links of the two lists.
 
-function mergeTwoLists(list1,list2) {
-    // if (list1 && list2 === []) return []
-    // if (list1.length < 1) return list2[0]
-    // if (list2.length < 1) return list1[0]
+    Output: Success - O(n^2)
+    This works under the constraints but by iterating across the final linked list n times, this is n^2 time complexity
+*/
 
-    // let merge = []
-    // if (list1[0] >= list2[0]) {
-    //     merge.push(list1[0]);
-    //     mergeTwoLists(list1.slice(1),list2);
-    // } 
-    // if (list2[0] > list1[0]) {
-    //     merge.push(list2[0]);
-    //     mergeTwoLists(list1,list2.slice(1));
-    // }
-    // return merge
-    let listRight = [...list1];
-    let listLeft = [...list2];
-    let mergeList = []
-    
-    while (Math.max(listLeft.length,listRight.length) > 0) {
-        
-        if (listLeft[0] <= listRight[0] || listRight.length === 0) {
-            let link = listLeft.shift(0)
-            mergeList.push(link)
-        } else if (listLeft[0] > listRight[0] || listLeft.length === 0) {
-            let link = listRight.shift(0)
-            mergeList.push(link)
-        }
-    }
-    return mergeList
+// Definition for singly-linked list.
+function ListNode(val, next) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
 }
 
-let list7 = [1,2,4]; 
-let list8 = [1,3,4];
-console.log(mergeTwoLists(list7,list8)) // => [1,1,2,3,4,4]
+rNode4 = new ListNode(4);
+rNode2 = new ListNode(2, rNode4);
+rNode1 = new ListNode(1, rNode2);
+pNode3 = new ListNode(3);
+pNode2 = new ListNode(2, pNode3);
+pNode1 = new ListNode(1, pNode2);
+// console.log("red Nodes:", rNode1, "Purple Nodes:", pNode1);
 
-let list3 = [], list4 = []
-console.log(mergeTwoLists(list3,list4)) // => []
+function mergeTwoLists(list1, list2) {
+    let mergeNode = new ListNode(0);
+    let firstList = list1;
+    let secondList = list2;
 
+    while (firstList || secondList) {
+        leafNode = lastChild(mergeNode);
 
-let list5 = [], list6 = [0]
-console.log(mergeTwoLists(list5,list6)) // => [0]
+        if (firstList && secondList) {
+            if (firstList.val <= secondList.val) {
+                leafNode.next = new ListNode(firstList.val);
+                firstList = firstList.next;
+            } else {
+                leafNode.next = new ListNode(secondList.val);
+                secondList = secondList.next;
+            }
+        } else {
+            if (firstList) {
+                leafNode.next = new ListNode(firstList.val);
+                firstList = firstList.next;
+            } else {
+                leafNode.next = new ListNode(secondList.val);
+                secondList = secondList.next;
+            }
+        }
+    }
+    return mergeNode.next;
+}
+
+function lastChild(node) {
+    while (node.next) {
+        node = node.next;
+    }
+    return node;
+}
+
+// console.log(lastChild(rNode1));
+console.log(mergeTwoLists(rNode1, pNode1));
+
+function mergeTwoListsHM(list1, list2) {
+    let mergeNode = new ListNode(0);
+    let firstList = list1;
+    let secondList = list2;
+
+    let visitedNodes = {};
+    let lastNode = null;
+
+    if (list1.val <= list2.val) {
+        val1 = firstList.val;
+        visitedNodes[val1] = firstList;
+        lastNode = val1;
+    }
+}
+
+console.log(mergeTwoListsHP(rNode1, pNode1));
