@@ -1,8 +1,13 @@
+// https://leetcode.com/problems/merge-two-sorted-lists/
+
 /* ATTEMPT 1 
     Use the helper function to find the last link in a linked list. I initiated an empty linked list and added the lesser of the initial links of the two lists.
 
     Output: Success - O(n^2)
     This works under the constraints but by iterating across the final linked list n times, this is n^2 time complexity
+
+    Further thought:
+    Upon further thought, I should have made the tail finding helper function simply a variable that gets updated with each node placed into the merge link
 */
 
 // Definition for singly-linked list.
@@ -64,12 +69,17 @@ function mergeTwoListsHM(list1, list2) {
     let secondList = list2;
 
     let visitedNodes = {};
-    let lastNode = null;
+    let lastNode = Infinity;
 
-    if (list1.val <= list2.val) {
-        val1 = firstList.val;
-        visitedNodes[val1] = firstList;
-        lastNode = val1;
+    while (firstList || secondList) {
+        if (list1.val <= lastNode) {
+            val1 = firstList.val;
+            visitedNodes[val1] = firstList;
+            lastNode = val1;
+            firstList = firstList.next;
+        } else {
+            val2 = secondList.val;
+        }
     }
 }
 
