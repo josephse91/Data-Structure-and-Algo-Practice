@@ -1,4 +1,10 @@
-require "byebug"
+# https://leetcode.com/submissions/detail/669970533/
+
+=begin SOLUTION USING DFS OR BFS
+    It is important to note that if a solution is base upon visiting every node of a tree, a breath first search is probably the faster solution.
+
+    If the solution is dependent on the leaves or we know it is deeper in the tree, we would use DFS
+=end
 
 class Employee
     attr_accessor :id,:importance, :subordinates
@@ -8,6 +14,7 @@ class Employee
         @importance = importance;
         @subordinates = subordinates;
     end
+
 
 end
 
@@ -27,9 +34,9 @@ end
 #     return company[id].importance + sum_importance
 # end
 
-rescue => exception
+# rescue => exception
     
-end
+# end
 
 def build_tree(employees)
     company = {}
@@ -38,18 +45,6 @@ def build_tree(employees)
     employees.each do |employee| 
         company[employee[0]] = Employee.new(employee[0],employee[1],employee[2])
     end
-    
-    employees.each_with_index do |e,i|
-        if (e[2].length > 0)
-            subs = company[e[0]].subordinates
-            subs.each do |sub|
-                new_subs << company[sub];
-            end
-
-            company[e[0]].subordinates = new_subs
-        end
-    end
-    
     company
 end
 
@@ -60,6 +55,7 @@ end
 
 # # --------------------------------------------------------------
 
+=begin
 def get_importance(employees, id)
     company = build_tree(employees)
     importance = 0
@@ -76,10 +72,38 @@ def get_importance(employees, id)
     end
     importance
 end
+=end
+
+def get_importance(employees, id)
+    employees = build_tree(employees)
+    employee_list = employees.values
+    total_importance = 0
+    employee_list.each do |employee|
+        if employee.id == id
+            total_importance = group_importance(employee,employees)
+        end
+    end
+    total_importance
+end
+
+def group_importance(sel_employees, employees)
+    return sel_employees.importance if (sel_employees.subordinates.length == 0)
+    
+    total_importance = 0
+    sel_employees.subordinates.each do |employee_id|
+        employee = employees[employee_id]
+        total_importance += group_importance(employee,employees)
+    end
+
+    sel_employees.importance + total_importance
+end
 
 p get_importance([[1,5,[2,3]],[2,3,[]],[3,3,[]]],1)
 p get_importance([[1,2,[5]],[5,-3,[]]],5)
 p get_importance([[101,3,[]],[2,5,[101]]],2)
 p get_importance([[1,10,[2,3,4]],[2,-1,[]],[3,-2,[]],[4,-3,[]]],1)
 
-# After trying this problem using dfs, it seems to make far more sense with bfs. This is because, once you have your root, can simply add the importance scanning down each level of children
+# p build_tree([[1,5,[2,3]],[2,3,[]],[3,3,[]]])
+# p build_tree([[1,2,[5]],[5,-3,[]]])
+# p build_tree([[101,3,[]],[2,5,[101]]])
+# p build_tree([[1,10,[2,3,4]],[2,-1,[]],[3,-2,[]],[4,-3,[]]])
