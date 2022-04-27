@@ -1,39 +1,47 @@
 // https://leetcode.com/problems/valid-word-abbreviation/
 
 var validWordAbbreviation = function (word, abbr) {
-    let j = word.length - 1;
+    let j = 0;
     abbr = abbr.split("");
-    for (let i = abbr.length - 1; i >= 0; i--) {
+
+    for (let i = 0; i < abbr.length; i++) {
+        if (!word[j]) return false;
         let char = abbr[i];
-        console.log(abbr, i, j, char, word[j], Number(char));
-        if (Number(char) >= 0) {
-            let num = Number(char);
-            if (Number(abbr[i - 1] >= 0 && abbr[i - 1] != 0)) {
-                abbr[i - 1] += char;
+        let charCode = abbr[i].charCodeAt(0);
+        let charCodeNext = abbr[i + 1] ? abbr[i + 1].charCodeAt(0) : 100;
+        let charCode3Digit = abbr[i + 2] ? abbr[i + 2].charCodeAt(0) : 100;
+
+        if (charCode < 97) {
+            if (charCode === 48) {
+                return false;
             } else {
-                if (!num) {
-                    return false;
+                if (charCodeNext < 97) {
+                    abbr[i] += abbr[i + 1];
+                    abbr[i + 1] = "";
+                    if (Number(abbr[i]) > 20) return false;
+                    if (charCode3Digit < 97) return false;
+                    j += Number(abbr[i]) - 1;
+                } else {
+                    j += Number(char);
                 }
-                if (!word[j] || j - num < -1) return false;
-                j -= num;
             }
         } else {
-            if (word[j] === abbr[i]) {
-                j--;
-            } else {
-                return false;
-            }
+            if (abbr[i] != word[j] && abbr[i] != "") return false;
+            j++;
         }
     }
-    return true;
+    return j === word.length;
 };
 
 word = "internationalization";
-abbr = "i12iz4n";
+abbr = "i5a11o1";
 console.log(validWordAbbreviation(word, abbr));
 word = "apple";
 abbr = "a2e";
-console.log(validWordAbbreviation(word, abbr));
+// console.log(validWordAbbreviation(word, abbr));
 word = "a";
 abbr = "01";
+// console.log(validWordAbbreviation(word, abbr));
+word = "aaaaaaaaaaaaaaaaaaa";
+abbr = "145";
 console.log(validWordAbbreviation(word, abbr));
