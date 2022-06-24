@@ -38,12 +38,9 @@ The space complexity was solved but now the time complexity was at risk if there
 /*
 
 /* SNAP OBJECT ATTEMPT 2 (FINAL ANSWER)
-CONCEPT: If the requested output involves a single element that is independant of other elements, there is most likely
-a solution available without initializing an array at any point. Using hashes or sets can be very useful.
+CONCEPT: If the requested output involves a single element that is independant of other elements, there is most likely a solution available without initializing an array at any point. Using hashes or sets can be very useful.
 
-I needed to improve upon Hash Attempt 1's linear space complexity with every set function call. To do this, rather than
-iterating through each key of the snaps object, all I need to do is apply the desired key at each snap object. Thus the 
-time complexity would be linear for the number of snaps BUT constant for the amount of sets.
+I needed to improve upon Hash Attempt 1's linear space complexity with every set function call. To do this, rather than iterating through each key of the snaps object, all I need to do is apply the desired key at each snap object. Thus the time complexity would be linear for the number of snaps BUT constant for the amount of sets.
 
 Additionally, since I realized that I will only reference one element in the get function, there is no need for the entire array
 at any point. I made a simple reference variable that would apply the sets at the desired index using the snap array of set objects
@@ -53,16 +50,16 @@ This reduces the space complexity to O(1) and the time complexity to O(n) where 
     @param {number} length
  */
 var SnapshotArray = function (length) {
-  this.latestSet = {};
-  this.snaps = [];
+    this.latestSet = {};
+    this.snaps = [];
 };
 
 function initiateArray(length) {
-  let array = [];
-  for (let i = 0; i < length; i++) {
-    array.push(0);
-  }
-  return array;
+    let array = [];
+    for (let i = 0; i < length; i++) {
+        array.push(0);
+    }
+    return array;
 }
 
 // let array = new SnapshotArray(3);
@@ -73,19 +70,19 @@ function initiateArray(length) {
  * @return {void}
  */
 SnapshotArray.prototype.set = function (index, val) {
-  this.latestSet[index] = val;
-  return;
-  // return this;
+    this.latestSet[index] = val;
+    return;
+    // return this;
 };
 
 /*
  * @return {number}
  */
 SnapshotArray.prototype.snap = function () {
-  this.snaps.push(this.latestSet);
-  this.latestSet = Object.create({});
-  return this.snaps.length - 1;
-  // return this;
+    this.snaps.push(this.latestSet);
+    this.latestSet = Object.create({});
+    return this.snaps.length - 1;
+    // return this;
 };
 
 /*
@@ -94,20 +91,19 @@ SnapshotArray.prototype.snap = function () {
  * @return {number}
  */
 SnapshotArray.prototype.get = function (index, snap_id) {
-  // this.array = Array.from(this.array,(el) => 0)
-  let snaps = this.snaps;
-  let getValue = 0;
-  let selectValue;
+    // this.array = Array.from(this.array,(el) => 0)
+    let snaps = this.snaps;
+    let getValue = 0;
 
-  for (i = 0; i <= snap_id; i++) {
-    let currentSnap = snaps[i];
+    for (i = 0; i <= snap_id; i++) {
+        let currentSnap = snaps[i];
 
-    if (currentSnap[index] || currentSnap[index] === 0) {
-      getValue = currentSnap[index];
+        if (currentSnap[index] || currentSnap[index] === 0) {
+            getValue = currentSnap[index];
+        }
     }
-  }
 
-  return (selectValue = !(getValue === null) ? getValue : null);
+    return (selectValue = !(getValue === null) ? getValue : null);
 };
 
 /*
