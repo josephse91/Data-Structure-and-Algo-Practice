@@ -2,6 +2,11 @@
  * @param {number[]} nums
  * @return {number}
  */
+
+// [6,0,8,2,1,5]
+
+
+
 var maxWidthRamp = function(nums) {
     let maxRamp = 0;
     
@@ -12,7 +17,7 @@ var maxWidthRamp = function(nums) {
         
         while (!currentRamp && j > i) {
             if (nums[j] - nums[i] >= 0) currentRamp = j-i;
-            j--
+            j--;
         }
         
         if (currentRamp > maxRamp) maxRamp = currentRamp;
