@@ -12,6 +12,7 @@ var isValidSudoku = function(board) {
             let num = board[i][j];
             let x = Math.floor(j/3);
             let y = Math.floor(i/3);
+            
             let square = x.toString() + y.toString();
             
             
@@ -27,3 +28,9 @@ var isValidSudoku = function(board) {
     }
     return true;
 };
+
+/* Notes it is worth noting that you must be careful when creating keys that involve numbers. Especially numbers that involve 0. The key will simplify numbers that start with a zero if you don't use quotations
+
+This problem was solved in linear time.
+
+*/
