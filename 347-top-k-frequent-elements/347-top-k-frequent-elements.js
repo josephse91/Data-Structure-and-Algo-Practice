@@ -19,7 +19,6 @@ var topKFrequent = function(nums, k) {
     }
     
     for (let j = count.length - 1; j >= 0; j--) {
-        console.log(count[j],j)
         if (count[j].length) output.push(...count[j])
         if (output.length >= k) return output;
     }
