@@ -5,16 +5,18 @@
 var maxArea = function(height) {
     let maxArea = 0;
     
-    for (let i = 0; i < height.length; i++) {
-        let maxPoss = height[i] * (height.length - i);
-        if (maxPoss < maxArea) continue;
-        for (let j = 0; j < height.length; j++) {
-            
-            let minHeight = Math.min(height[i], height[j]);
-            let currArea = minHeight * (j - i);
-            
-            maxArea = Math.max(currArea,maxArea);
+    let i = 0, j = height.length - 1;
+    while (i < j) {
+        let minHeight = Math.min(height[i], height[j]);
+        let minIdx = height[i] === minHeight ? i : j;
+        
+        let currArea = minHeight * (j-i);
+
+        if (currArea > maxArea) {
+            maxArea = currArea;
         }
+        
+        minIdx === i ? i++ : j--;
     }
     
     return maxArea;
