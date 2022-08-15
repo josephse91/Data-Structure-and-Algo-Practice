@@ -12,7 +12,6 @@ var maxAreaOfIsland = function(grid) {
             if (cell && !visited[cell]) {
                let currArea = calcArea(grid,i,j)
                area = Math.max(area,currArea)
-                // console.log(i,j,currArea,area,visited)
             }
         }
     }
@@ -38,6 +37,7 @@ var maxAreaOfIsland = function(grid) {
                 currArea += calcArea(grid,r,c)
             }   
         })
+        
         return currArea + 1;
     }
     
