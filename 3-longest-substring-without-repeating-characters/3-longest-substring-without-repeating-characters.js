@@ -17,3 +17,7 @@ var lengthOfLongestSubstring = function(s) {
     }
     return count;
 };
+
+/*
+    Make sure that when you reset your starting pointer, that you are typically checking if there is a duplicate is AFTER the starting point
+*/
