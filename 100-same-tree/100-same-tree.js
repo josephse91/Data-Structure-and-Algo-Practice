@@ -20,3 +20,7 @@ var isSameTree = function(p, q) {
     }
     return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
 };
+
+/*
+The concept here is that, we want to traverse through each node of the trees. The trees are the same if you get to the leaf nodes without triggering false indicators. Thus return true. Along the way, if the current nodes are equal recursively apply that check to the left and right nodes. If the left and right nodes are true then its the same tree.
+*/
