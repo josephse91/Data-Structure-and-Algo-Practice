@@ -5,16 +5,21 @@
 var subsets = function(nums) {
     let output = [];
     
-    backtrack = function(index, subset = []) {
-        if(index >= nums.length) {
+    function search(index, subset = []) {
+        if (index >= nums.length) {
             output.push([...subset]);
-            return;
+            return
         }
         
-        backtrack(index + 1, [...subset, nums[index]]);
-        backtrack(index + 1, [...subset]);
+        let num = nums[index];
+        search(index + 1, [...subset]);
+        subset.push(num)
+        search(index + 1, [...subset]);
     }
     
-    backtrack(0, []);
+    search(0, []);
     return output;
 };
+
+
+
