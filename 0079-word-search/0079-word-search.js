@@ -12,7 +12,7 @@ var exist = function(board, word) {
         for (let j = 0; j < board[0].length; j++) {
             let match = explore(word,i,j);
             if (match) return true;
-            visited = new Set();
+            // visited = new Set();
         }
     }
     
