@@ -54,7 +54,6 @@ var searchMatrix = function(matrix,target) {
     }
     
     let targetArray = matrix[left];
-    console.log(targetArray)
     left = 0, right = cols - 1;
     
     while (left <= right) {
