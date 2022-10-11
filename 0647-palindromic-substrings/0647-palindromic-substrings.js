@@ -2,6 +2,33 @@
  * @param {string} s
  * @return {number}
  */
+
+var countSubstrings = function(s) {
+    let output = 0;
+    
+   for (let i = 0; i < s.length; i++) {
+        output += findPalindrome(i,true) + findPalindrome(i,false);
+    }
+
+    return output;
+    
+    function findPalindrome(index,odd) {
+        let count = 0;
+        let i = index, j = odd ? index : index + 1;
+        
+        while (i >= 0 && j < s.length) {
+            if (s[i] === s[j]) {
+                count++;
+            } else break;
+            i--;
+            j++;
+        }
+        // console.log(index,odd,count)
+        return count;
+    }
+};
+
+/*
 var countSubstrings = function(s) {
     let output = 0;
     let count = 1;
@@ -29,3 +56,4 @@ var countSubstrings = function(s) {
         return true;
     }
 };
+*/
