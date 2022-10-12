@@ -5,11 +5,13 @@
  */
 var characterReplacement = function(s, k) {
     let left = 0, right = 0;
-    let count = k;
-    let chars = new Map();
-    chars.set(s[0],0);
+    let count = k; // count is important because we need to know how many times k has been used
     
-    let leadCount = 0;
+    let chars = new Map(); // will log the letter counts within the window
+    chars.set(s[0],0); // initialize the first letter with letter count
+    
+    let leadCount = 0; // will be used to keep track of leading letter within a window
+    
     while (right < s.length) {
         if (chars.get(s[right]) !== leadCount) {
             if (count > 0) {
@@ -21,14 +23,17 @@ var characterReplacement = function(s, k) {
             }
         } 
         
+        // whether there is a matching letter, or available k, the right pointer will always move.
+        
         let rightVal = (chars.get(s[right]) || 0);
-        let iterate = right < s.length ? 1: 0;
-        chars.set(s[right], rightVal + iterate);
+        chars.set(s[right], rightVal + 1);
         right++
         leadCount = Math.max(...chars.values(),leadCount)
+        // leadCount always becomes the maximum letter count within any window
     }
     
-    return leadCount + (k - count);
+    let usedKs = k - count;
+    return leadCount + usedKs;
 };
 
 // if char is not leading char and k remaining, subtract k by 1
