@@ -13,7 +13,6 @@
  */
 var hasPathSum = function(root, targetSum) {
     if (!root) return false
-    let sums = new Set();
     let queue = [root];
     
     
