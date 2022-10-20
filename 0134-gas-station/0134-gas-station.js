@@ -22,4 +22,5 @@ var canCompleteCircuit = function(gas, cost) {
     return currSum >= 0 ? index : -1;
 };
 
-//  1 -2 2 3 -4
+/* Since this is a circular route, the sum of the elements must be greater zero or greater 
+*/
