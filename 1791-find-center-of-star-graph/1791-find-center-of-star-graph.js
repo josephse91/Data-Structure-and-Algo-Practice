@@ -2,6 +2,7 @@
  * @param {number[][]} edges
  * @return {number}
  */
+/*
 var findCenter = function(edges) {
     let nodes = {}
     for (let [start,end] of edges) {
@@ -17,4 +18,9 @@ var findCenter = function(edges) {
             nodes[end] = 1;
         }
     }
+};
+*/
+var findCenter = function(edges) {
+    let left = edges[0][0], right = edges[0][1];
+    return left === edges[1][0] || left === edges[1][1] ? left : right;
 };
